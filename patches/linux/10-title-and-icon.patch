@@ -1,0 +1,35 @@
+--- a/linux/runner/my_application.cc
++++ b/linux/runner/my_application.cc
+@@ -47,3 +47,3 @@
+     gtk_widget_show(GTK_WIDGET(header_bar));
+-    gtk_header_bar_set_title(header_bar, "@NAME@");
++    gtk_header_bar_set_title(header_bar, "@DISPLAY_NAME@");
+     gtk_header_bar_set_show_close_button(header_bar, TRUE);
+@@ -51,3 +51,3 @@
+   } else {
+-    gtk_window_set_title(window, "@NAME@");
++    gtk_window_set_title(window, "@DISPLAY_NAME@");
+   }
+@@ -55,2 +55,12 @@
+   gtk_window_set_default_size(window, 1280, 720);
++
++  // Window icon: icon.png is installed into <bundle>/data/ (see CMakeLists.txt).
++  {
++    g_autofree gchar* exe = g_file_read_link("/proc/self/exe", nullptr);
++    if (exe != nullptr) {
++      g_autofree gchar* dir = g_path_get_dirname(exe);
++      g_autofree gchar* icon = g_build_filename(dir, "data", "icon.png", nullptr);
++      gtk_window_set_icon_from_file(window, icon, nullptr);
++    }
++  }
+ 
+--- a/linux/CMakeLists.txt
++++ b/linux/CMakeLists.txt
+@@ -99,2 +99,7 @@
+ 
++if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/icon.png")
++  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/icon.png" DESTINATION "${INSTALL_BUNDLE_DATA_DIR}"
++    COMPONENT Runtime)
++endif()
++
+ install(FILES "${FLUTTER_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"

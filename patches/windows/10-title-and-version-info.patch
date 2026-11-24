@@ -1,0 +1,19 @@
+--- a/windows/runner/main.cpp
++++ b/windows/runner/main.cpp
+@@ -29,3 +29,3 @@
+   Win32Window::Size size(1280, 720);
+-  if (!window.Create(L"@NAME@", origin, size)) {
++  if (!window.Create(L"@DISPLAY_NAME@", origin, size)) {
+     return EXIT_FAILURE;
+--- a/windows/runner/Runner.rc
++++ b/windows/runner/Runner.rc
+@@ -92,3 +92,3 @@
+             VALUE "CompanyName", "@ORG@" "\0"
+-            VALUE "FileDescription", "@NAME@" "\0"
++            VALUE "FileDescription", "@DISPLAY_NAME@" "\0"
+             VALUE "FileVersion", VERSION_AS_STRING "\0"
+@@ -97,3 +97,3 @@
+             VALUE "OriginalFilename", "@NAME@.exe" "\0"
+-            VALUE "ProductName", "@NAME@" "\0"
++            VALUE "ProductName", "@DISPLAY_NAME@" "\0"
+             VALUE "ProductVersion", VERSION_AS_STRING "\0"

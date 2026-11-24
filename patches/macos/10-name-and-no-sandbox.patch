@@ -1,0 +1,21 @@
+--- a/macos/Runner/Configs/AppInfo.xcconfig
++++ b/macos/Runner/Configs/AppInfo.xcconfig
+@@ -7,3 +7,3 @@
+ // The application's name. By default this is also the title of the Flutter window.
+-PRODUCT_NAME = @NAME@
++PRODUCT_NAME = @DISPLAY_NAME@
+ 
+--- a/macos/Runner/DebugProfile.entitlements
++++ b/macos/Runner/DebugProfile.entitlements
+@@ -5,3 +5,3 @@
+ 	<key>com.apple.security.app-sandbox</key>
+-	<true/>
++	<false/>
+ 	<key>com.apple.security.cs.allow-jit</key>
+--- a/macos/Runner/Release.entitlements
++++ b/macos/Runner/Release.entitlements
+@@ -5,3 +5,3 @@
+ 	<key>com.apple.security.app-sandbox</key>
+-	<true/>
++	<false/>
+ </dict>

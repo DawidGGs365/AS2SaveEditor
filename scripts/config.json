@@ -1,0 +1,6 @@
+{
+  "org": "com.dawidggs",
+  "display_name": "AS2 Save Editor",
+  "description": "Save editor for Animal Shelter 2.",
+  "file_prefix": "saveditor"
+}

@@ -1,0 +1,44 @@
+--- a/android/app/src/main/AndroidManifest.xml
++++ b/android/app/src/main/AndroidManifest.xml
+@@ -2,3 +2,3 @@
+     <application
+-        android:label="@NAME@"
++        android:label="@DISPLAY_NAME@"
+         android:name="${applicationName}"
+--- a/android/app/build.gradle.kts
++++ b/android/app/build.gradle.kts
+@@ -5,2 +5,14 @@
+ }
++
++// Release signing is configured from environment variables (set by CI from GitHub secrets).
++// If any is missing, the release build is signed with the debug key so local builds keep working.
++val keystorePath: String? = System.getenv("KEYSTORE_FILE")
++val keystorePassword: String? = System.getenv("KEYSTORE_PASSWORD")
++val keyAliasEnv: String? = System.getenv("KEY_ALIAS")
++val keyPasswordEnv: String? = System.getenv("KEY_PASSWORD")
++val hasSigning = !keystorePath.isNullOrBlank() &&
++    file(keystorePath).exists() &&
++    !keystorePassword.isNullOrBlank() &&
++    !keyAliasEnv.isNullOrBlank() &&
++    !keyPasswordEnv.isNullOrBlank()
+ 
+@@ -31,7 +43,16 @@
+ 
++    signingConfigs {
++        if (hasSigning) {
++            create("release") {
++                storeFile = file(keystorePath!!)
++                storePassword = keystorePassword
++                keyAlias = keyAliasEnv
++                keyPassword = keyPasswordEnv
++            }
++        }
++    }
++
+     buildTypes {
+         release {
+-            // TODO: Add your own signing config for the release build.
+-            // Signing with the debug keys for now, so `flutter run --release` works.
+-            signingConfig = signingConfigs.getByName("debug")
++            signingConfig = signingConfigs.findByName("release") ?: signingConfigs.getByName("debug")
+         }
